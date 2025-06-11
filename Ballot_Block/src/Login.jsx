@@ -49,6 +49,7 @@ const storeData = async (e) => {
     const result = await response.json();
     if (result.success) {
       console.log("✅ User data stored:", result.message);
+    alert(`${usrname} registered successfully!! Please login`);
     } else {
       console.error("❌ Server error:", result.message);
     }
