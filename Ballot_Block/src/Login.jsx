@@ -24,13 +24,28 @@ const Login = () => {
   const [verifySuccess, setVerifySuccess] = useState(null);
   const recaptchaRef = useRef(null);
   const confirmationResultRef = useRef(null);
+  const nameRegex = /^[A-Za-z]+$/;
+  const phoneRegex = /^\+91[0-9]{10}$/;
 
+const validatedata = (usrname, pn) => {
+
+  if (!nameRegex.test(usrname)) {
+    window.alert("❌ Invalid username: only letters are allowed.");
+    return false;
+  }
+
+  if (!phoneRegex.test(pn)) {
+    window.alert("❌ Invalid phone number: must start with +91 and be followed by 10 digits.");
+    return false;
+  }
+  return true;
+};
 
 const storeData = async (e) => {
    e.preventDefault();
   let usrname = document.getElementById('usrname').value;
   let pn = document.getElementById('phonenumber').value;
-
+  if (validatedata(usrname,pn)){
   const userData = {
     name: usrname,
     phone: pn,
@@ -48,15 +63,14 @@ const storeData = async (e) => {
 
     const result = await response.json();
     if (result.success) {
-      console.log("✅ User data stored:", result.message);
-    alert(`${usrname} registered successfully!! Please login`);
+    alert(` \"${usrname}\" registered successfully!! Please login`);
     } else {
-      console.error("❌ Server error:", result.message);
+      alert(result.message);
     }
   } catch (error) {
-    console.error("🔥 Error sending data to server:", error);
+    alert("server error");
   }
-};
+}};
 
   useEffect(() => {
     if (!window.recaptchaVerifier) {
@@ -69,7 +83,8 @@ const storeData = async (e) => {
   }, []);
 
   const sendOTP = (e) => {
-    e.preventDefault();
+    const sendotpn = document.getElementById("phonenumberlogin").value; //////////////
+      e.preventDefault();
     firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
       .then((confirmationResult) => {
         confirmationResultRef.current = confirmationResult;
@@ -108,14 +123,15 @@ const verifyOTP = (e) => {
                   <input
                     className="flip-card__input"
                     name="phoneno"
-                    placeholder="Phone Number"
+                    placeholder="Phone Number: +91..."
                     type="text"
+                    id='phonenumberlogin'
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                   <div ref={recaptchaRef} style={{ marginBottom: '10px' }} />
                   {!showOtp && (
-                    <button className="flip-card__btn" onClick={sendOTP} style={{ marginTop: '-17px' }}>Send OTP</button>
+                    <button className="flip-card__btn" onClick={sendOTP}  style={{ marginTop: '-17px' }}>Send OTP</button>
                   )}
                   {showOtp && (
                     <>
@@ -137,7 +153,7 @@ const verifyOTP = (e) => {
                 <div className="title">Sign up</div>
                 <form className="flip-card__form">
                   <input className="flip-card__input" placeholder="Name" type="text"  id='usrname'/>
-                  <input className="flip-card__input" placeholder="Phone Number" type="text" id="phonenumber" />
+                  <input className="flip-card__input" placeholder="Phone Number: +91..." type="text" id="phonenumber" />
                   <button className="flip-card__btn" type="button" onClick={storeData}>Sign up</button>
                 </form>
               </div>
