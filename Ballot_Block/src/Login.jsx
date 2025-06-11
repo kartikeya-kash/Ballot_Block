@@ -25,6 +25,38 @@ const Login = () => {
   const recaptchaRef = useRef(null);
   const confirmationResultRef = useRef(null);
 
+
+const storeData = async (e) => {
+   e.preventDefault();
+  let usrname = document.getElementById('usrname').value;
+  let pn = document.getElementById('phonenumber').value;
+
+  const userData = {
+    name: usrname,
+    phone: pn,
+  };
+  console.log("📤 Sending:", userData);
+
+  try {
+    const response = await fetch("http://localhost:5003/api/store-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      console.log("✅ User data stored:", result.message);
+    } else {
+      console.error("❌ Server error:", result.message);
+    }
+  } catch (error) {
+    console.error("🔥 Error sending data to server:", error);
+  }
+};
+
   useEffect(() => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(recaptchaRef.current, {
@@ -103,9 +135,9 @@ const verifyOTP = (e) => {
               <div className="flip-card__back">
                 <div className="title">Sign up</div>
                 <form className="flip-card__form">
-                  <input className="flip-card__input" placeholder="Name" type="text" />
-                  <input className="flip-card__input" placeholder="Phone Number" type="text" />
-                  <button className="flip-card__btn">Sign up</button>
+                  <input className="flip-card__input" placeholder="Name" type="text"  id='usrname'/>
+                  <input className="flip-card__input" placeholder="Phone Number" type="text" id="phonenumber" />
+                  <button className="flip-card__btn" type="button" onClick={storeData}>Sign up</button>
                 </form>
               </div>
             </div>
