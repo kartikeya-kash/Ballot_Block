@@ -1,8 +1,8 @@
 import React from 'react';
-import Login from './Login'; // your component for input form
-
+import Login from './Login'; 
+import landing from "./landing";
 function App() {
-  return <Login />;
+  return <landing />;
 }
 
 export default App;
