@@ -91,7 +91,7 @@ const storeData = async (e) => {
         setShowOtp(true);
       })
       .catch((error) => {
-        alert(error.message);
+        alert("Phone number not register, please signup");
         console.error("Error sending OTP:", error);
       });
   };
