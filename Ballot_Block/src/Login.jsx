@@ -53,7 +53,7 @@ const storeData = async (e) => {
   console.log("📤 Sending:", userData);
 
   try {
-    const response = await fetch("http://localhost:5003/api/store-user", {
+    const response = await fetch("https://ballot-block.onrender.com/api/store-user", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -68,7 +68,7 @@ const storeData = async (e) => {
       alert(result.message);
     }
   } catch (error) {
-    alert("server error");
+    alert(error.message);
   }
 }};
 
