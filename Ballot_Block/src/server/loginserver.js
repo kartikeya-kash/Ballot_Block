@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 const PORT = 5003;
@@ -10,11 +12,13 @@ app.use(express.json());
 
 // MySQL Con Setup
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',      
-  password: 'root', 
-  database: 'ballot_block',   
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
+
 
 // Connect to MySQL
 db.connect((err) => {
