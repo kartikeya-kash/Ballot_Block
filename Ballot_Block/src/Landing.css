@@ -1,0 +1,145 @@
+/* === Base Styles === */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  overflow-x: hidden;
+}
+
+#tsparticles {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, #050b1b, #030814, #051028, #030b1b, #031432);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* === Hero Section Container === */
+.hero-section {
+  width: 100%;
+  max-width: 1280px;
+  padding: 20px 80px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* === Navbar === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 16px 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+  gap: 10px;
+  color: white;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+
+.nav-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 14px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* === Hero Content === */
+.hero-content {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-content h1 {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.lock-icon {
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-content p {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 40px;
+  color: #e5e7eb;
+  max-width: 900px;
+  line-height: 1.6;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.primary-btn {
+  background-color: #3b82f6;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  padding: 14px 30px;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
