@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import "./Landing.css";
+import { Link } from "react-router-dom";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXM-gjrHwRlsWn-sah7b9HnoaWykzVG6k",
@@ -137,14 +138,14 @@ const Login = () => {
           <img src="/logo.svg" alt="logo" className="logo-icon" />
           <span>BallotBlock</span>
         </div>
-        <ul className="nav-links">
-          <li><a href="#">Home</a></li>
+                  <ul className="nav-links">
+          <li><Link to="/">Home</Link></li>
           <li><a href="#">Features</a></li>
           <li><a href="#">How It Works</a></li>
           <li><a href="#">Demo</a></li>
           <li><a href="#">Docs</a></li>
           <li><a href="#">Github</a></li>
-          <li><button className="nav-btn">Login/Register</button></li>
+          <li><Link to="/login" className="nav-btn">Login/Register</Link></li>
         </ul>
       </nav>
 
@@ -234,10 +235,6 @@ const StyledWrapper = styled.div`
   }
 
   .navbar {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  left: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -247,6 +244,11 @@ const StyledWrapper = styled.div`
   padding: 16px 32px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 40px;
+  position: absolute;
+  top: 20px;
+  right: 100px;
+  left: 100px;  
   z-index: 2;
 }
 

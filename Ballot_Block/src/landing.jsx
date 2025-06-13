@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 import "./Landing.css";
+import { Link } from 'react-router-dom';
+
 
 const Landing = () => {
   useEffect(() => {
@@ -57,14 +59,14 @@ const Landing = () => {
             <span>BallotBlock</span>
           </div>
           <ul className="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">How It Works</a></li>
-            <li><a href="#">Demo</a></li>
-            <li><a href="#">Docs</a></li>
-            <li><a href="#">Github</a></li>
-            <li><button className="nav-btn"><a href="">Login/Register</a></button></li>
-          </ul>
+  <li><Link to="/">Home</Link></li>
+  <li><a href="#">Features</a></li>
+  <li><a href="#">How It Works</a></li>
+  <li><a href="#">Demo</a></li>
+  <li><a href="#">Docs</a></li>
+  <li><a href="#">Github</a></li>
+  <li><Link to="/login" className="nav-btn">Login/Register</Link></li>
+</ul>
         </nav>
 
         <header className="hero-content">
