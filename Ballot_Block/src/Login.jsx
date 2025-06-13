@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import "./Landing.css";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXM-gjrHwRlsWn-sah7b9HnoaWykzVG6k",
@@ -22,70 +23,58 @@ const Login = () => {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [showOtp, setShowOtp] = useState(false);
-  const [verifySuccess, setVerifySuccess] = useState(null);
   const recaptchaRef = useRef(null);
   const confirmationResultRef = useRef(null);
   const nameRegex = /^[A-Za-z]+$/;
   const phoneRegex = /^\+91[0-9]{10}$/;
 
-const validatedata = (usrname, pn) => {
-
-  if (!nameRegex.test(usrname)) {
-    window.alert("❌ Invalid username: only letters are allowed.");
-    return false;
-  }
-
-  if (!phoneRegex.test(pn)) {
-    window.alert("❌ Invalid phone number: must start with +91 and be followed by 10 digits.");
-    return false;
-  }
-  return true;
-};
-
-const storeData = async (e) => {
-   e.preventDefault();
-  let usrname = document.getElementById('usrname').value;
-  let pn = document.getElementById('phonenumber').value;
-  if (validatedata(usrname,pn)){
-  const userData = {
-    name: usrname,
-    phone: pn,
-  };
-  console.log("📤 Sending:", userData);
-
-  try {
-    const response = await fetch("https://ballot-block.onrender.com/api/store-user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(userData),
-    });
-
-    const result = await response.json();
-    if (result.success) {
-    alert(` \"${usrname}\" registered successfully!! Please login`);
-    } else {
-      alert(result.message);
+  const validatedata = (usrname, pn) => {
+    if (!nameRegex.test(usrname)) {
+      window.alert("❌ Invalid username: only letters are allowed.");
+      return false;
     }
-  } catch (error) {
-    alert(error.message);
-  }
-}};
+    if (!phoneRegex.test(pn)) {
+      window.alert("❌ Invalid phone number: must start with +91 and be followed by 10 digits.");
+      return false;
+    }
+    return true;
+  };
+
+  const storeData = async (e) => {
+    e.preventDefault();
+    let usrname = document.getElementById('usrname').value;
+    let pn = document.getElementById('phonenumber').value;
+    if (validatedata(usrname, pn)) {
+      const userData = { name: usrname, phone: pn };
+      try {
+        const response = await fetch("https://ballot-block.onrender.com/api/store-user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData),
+        });
+        const result = await response.json();
+        if (result.success) {
+          alert(` "${usrname}" registered successfully!! Please login`);
+        } else {
+          alert(result.message);
+        }
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(recaptchaRef.current, {
-        size: 'normal',
-        callback: () => {},
+        size: 'normal', callback: () => {},
       });
       window.recaptchaVerifier.render();
     }
   }, []);
 
   const sendOTP = (e) => {
-    const sendotpn = document.getElementById("phonenumberlogin").value; //////////////
-      e.preventDefault();
+    e.preventDefault();
     firebase.auth().signInWithPhoneNumber(phone, window.recaptchaVerifier)
       .then((confirmationResult) => {
         confirmationResultRef.current = confirmationResult;
@@ -97,19 +86,68 @@ const storeData = async (e) => {
       });
   };
 
-const verifyOTP = (e) => {
-  e.preventDefault();
-  confirmationResultRef.current.confirm(otp)
-    .then(() => {
-      alert("✅ Phone number verified successfully!");
-    })
-    .catch(() => {
-      alert("❌ OTP verification failed. Please try again.");
-    });
-};
+  const verifyOTP = (e) => {
+    e.preventDefault();
+    confirmationResultRef.current.confirm(otp)
+      .then(() => alert("✅ Phone number verified successfully!"))
+      .catch(() => alert("❌ OTP verification failed. Please try again."));
+  };
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js";
+    script.async = true;
+    script.onload = () => {
+      tsParticles.load("tsparticles", {
+        fullScreen: { enable: false },
+        detectRetina: true,
+        particles: {
+          number: { value: 60, density: { enable: true, area: 800 } },
+          size: { value: 2 },
+          color: { value: "#5c8df6" },
+          links: {
+            enable: true,
+            color: "#5c8df6",
+            opacity: 0.15,
+            width: 1,
+          },
+          move: { enable: true, speed: 0.3 },
+        },
+        interactivity: {
+          events: {
+            onHover: { enable: true, mode: "repulse" },
+            resize: true,
+          },
+          modes: {
+            repulse: { distance: 80, duration: 0.4 },
+          },
+        },
+        background: { color: "transparent" },
+      });
+    };
+    document.body.appendChild(script);
+  }, []);
 
   return (
     <StyledWrapper>
+      <div id="tsparticles"></div>
+
+      <nav className="navbar">
+        <div className="logo">
+          <img src="/logo.svg" alt="logo" className="logo-icon" />
+          <span>BallotBlock</span>
+        </div>
+        <ul className="nav-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">How It Works</a></li>
+          <li><a href="#">Demo</a></li>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">Github</a></li>
+          <li><button className="nav-btn">Login/Register</button></li>
+        </ul>
+      </nav>
+
       <div className="wrapper">
         <div className="card-switch">
           <label className="switch">
@@ -166,10 +204,105 @@ const verifyOTP = (e) => {
   );
 };
 
+
 const StyledWrapper = styled.div`
 
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: column;
+  align-items: center;
+
+  #tsparticles {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(135deg, #050b1b, #030814, #051028, #030b1b, #031432);
+    background-size: 400% 400%;
+    animation: gradientMove 15s ease infinite;
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .navbar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  left: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 16px 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  z-index: 2;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.4rem;
+  gap: 10px;
+  color: white;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.05rem;
+}
+
+.nav-btn {
+  background-color: rgba(59, 130, 246, 0.15); /* semi-transparent blue */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 20px;
+  border-radius: 10px;
+  color:rgb(0, 0, 0);
+  font-size: 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: rgba(59, 130, 246, 0.3); /* darken on hover */
+}
+
   .wrapper {
-   height: 100vh; 
+      z-index: 1;
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   display: flex;
   justify-content: center; 
   align-items: center;     
