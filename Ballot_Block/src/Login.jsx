@@ -322,7 +322,7 @@ const StyledWrapper = styled.div`
     justify-content: center;
     align-items: center;
     gap: 8px;
-    width: 50px;
+    width: 300px;
     height: 320px;
      margin-top: 345px;
   }
