@@ -63,7 +63,7 @@ const Landing = () => {
             <li><a href="#">Demo</a></li>
             <li><a href="#">Docs</a></li>
             <li><a href="#">Github</a></li>
-            <li><button className="nav-btn">Login/Register</button></li>
+            <li><button className="nav-btn"><a href="">Login/Register</a></button></li>
           </ul>
         </nav>
 

@@ -3,7 +3,7 @@ import Login from './Login';
 import Landing from "./landing";
 
 function App() {
-  return <Landing />;
+  return <Login />;
 }
 
 export default App;
