@@ -279,21 +279,15 @@ const StyledWrapper = styled.div`
   font-size: 1.05rem;
 }
 
+
 .nav-btn {
-  background-color: rgba(59, 130, 246, 0.15); /* semi-transparent blue */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
   padding: 10px 20px;
-  border-radius: 10px;
-  color:rgb(0, 0, 0);
+  border-radius: 14px;
+  color: white;
   font-size: 1rem;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background 0.3s ease, color 0.3s ease;
-}
-
-.nav-btn:hover {
-  background-color: rgba(59, 130, 246, 0.3); /* darken on hover */
 }
 
   .wrapper {
