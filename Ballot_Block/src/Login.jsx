@@ -302,7 +302,7 @@ const StyledWrapper = styled.div`
   display: flex;
   justify-content: center; 
   align-items: center;     
-    --input-focus: #2d8cf0;
+    --input-focus:rgb(22, 128, 241);
     --font-color: #323232;
     --font-color-sub: #666;
 --bg-color: #fff; 
@@ -312,7 +312,8 @@ const StyledWrapper = styled.div`
       /* flex-direction: column; */
       /* align-items: center; */
   }
-  /* switch card */
+  
+
   .switch {
     transform: translateY(-200px);
     position: relative;
@@ -320,32 +321,28 @@ const StyledWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 8px;
     width: 50px;
-    height: 20px;
+    height: 320px;
+     margin-top: 345px;
   }
 
-  .card-side::before {
-    position: absolute;
-    content: 'Log in';
-    left: -70px;
-    top: 0;
-    width: 100px;
-    text-decoration: underline;
-    color: var(--font-color);
-    font-weight: 600;
-  }
+.card-side::before,
+.card-side::after {
+  content: ""; /* Required to make pseudo-elements appear */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  color: white;
+  font-weight: bold;
 
-  .card-side::after {
-    position: absolute;
-    content: 'Sign up';
-    left: 70px;
-    top: 0;
-    width: 100px;
-    text-decoration: none;
-    color: var(--font-color);
-    font-weight: 600;
-  }
+  pointer-events: none;
+  border-radius: 16px;
+  z-index: -1;
+}
 
   .toggle {
     opacity: 0;
@@ -354,41 +351,45 @@ const StyledWrapper = styled.div`
   }
 
   .slider {
+   width: 60px;
+  height: 28px;
     box-sizing: border-box;
-    border-radius: 5px;
+  border-radius: 14px;
     border: 2px solid var(--main-color);
     box-shadow: 4px 4px var(--main-color);
-    position: absolute;
+  position: relative;
     cursor: pointer;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--bg-color );
-    transition: 0.3s;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.3s;
   }
 
-  .slider:before {
-    box-sizing: border-box;
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    border: 2px solid var(--main-color);
-    border-radius: 5px;
-    left: -2px;
-    bottom: 2px;
-    background-color: var(--bg-color);
-    box-shadow: 0 3px 0 var(--main-color);
-    transition: 0.3s;
-  }
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 0;
+  bottom: 2px;
+
+  background-color: var(--bg-color);
+  border: 2px solid var(--main-color);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
 
   .toggle:checked + .slider {
     background-color: var(--input-focus);
   }
 
   .toggle:checked + .slider:before {
-    transform: translateX(30px);
+    transform: translateX(32px);
   }
 
   .toggle:checked ~ .card-side:before {
@@ -402,16 +403,16 @@ const StyledWrapper = styled.div`
   /* card */ 
 
   .flip-card__inner {
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+  perspective: 1000px;
     width: 300px;
     height: 350px;
     position: relative;
     background-color: transparent;
-    perspective: 1000px;
       /* width: 100%;
       height: 100%; */
     text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
   }
 
   .toggle:checked ~ .flip-card__inner {
@@ -420,22 +421,33 @@ const StyledWrapper = styled.div`
 
   .toggle:checked ~ .flip-card__front {
     box-shadow: none;
+    height:100px;
+    width:200px;
   }
 
-  .flip-card__front, .flip-card__back {
-    padding: 20px;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background: lightgrey;
-    gap: 20px;
-    border-radius: 5px;
-    border: 2px solid var(--main-color);
-    box-shadow: 4px 4px var(--main-color);
-  }
+
+.flip-card__front,
+.flip-card__back {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  color: #fff;
+
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease, box-shadow 0.3s ease;
+}
 
   .flip-card__back {
     width: 100%;
@@ -454,25 +466,25 @@ const StyledWrapper = styled.div`
     font-size: 25px;
     font-weight: 900;
     text-align: center;
-    color: var(--main-color);
+    color: white;
   }
 
   .flip-card__input {
     width: 250px;
     height: 40px;
     border-radius: 5px;
-    border: 2px solid var(--main-color);
-    background-color: var(--bg-color);
+    background-color: rgba(255, 255, 255, 0.05); /* glassy */
+  border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 4px 4px var(--main-color);
     font-size: 15px;
     font-weight: 600;
-    color: var(--font-color);
+    color: white;
     padding: 5px 10px;
     outline: none;
   }
 
   .flip-card__input::placeholder {
-    color: var(--font-color-sub);
+    color: rgba(255, 255, 255, 0.6);
     opacity: 0.8;
   }
 
