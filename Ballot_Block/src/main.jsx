@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Landing from './Landing.jsx';
+import Landing from './landing.jsx';
 import Login from './Login.jsx';
 import './index.css';
 
