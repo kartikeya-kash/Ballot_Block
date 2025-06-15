@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Landing.css";
 import { Link } from "react-router-dom";
 import Features from "./Features";
 import HowItWorks from './HowItWorks';
-
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 const Landing = () => {
+  const [user, setUser] = useState(null);
+  const [showProfile, setShowProfile] = useState(false);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js";
@@ -48,7 +51,24 @@ const Landing = () => {
       });
     };
     document.body.appendChild(script);
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const voterData = JSON.parse(localStorage.getItem("voterData")) || {};
+        setUser({ ...firebaseUser, ...voterData });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
+
+  const handleLogout = () => {
+    signOut(getAuth());
+    setUser(null);
+  };
 
   return (
     <div>
@@ -64,8 +84,23 @@ const Landing = () => {
             <li><Link to="/">Home</Link></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#howitworks">How It Works</a></li>
-            <li>  <a href="https://github.com/kartikeya-kash/Ballot_Block" target="_blank" rel="noopener noreferrer">Github</a></li>
-            <li><Link to="/login" className="nav-btn">Login/Register</Link></li>
+            <li><a href="https://github.com/kartikeya-kash/Ballot_Block" target="_blank" rel="noopener noreferrer">Github</a></li>
+            {user ? (
+              <li className="me-menu">
+                <span onClick={() => setShowProfile(!showProfile)}>Me ▾</span>
+                {showProfile && (
+                  <div className="me-dropdown">
+                    <p><strong>Phone:</strong> {user.phoneNumber}</p>
+                    <p><strong>Voter ID:</strong> {user.voterId || "Assigned After Registration"}</p>
+                    <p><strong>Voted:</strong> {user.hasVoted ? "Yes" : "No"}</p>
+                    <p><strong>Stored Blocks:</strong> {JSON.parse(localStorage.getItem("blockchain"))?.length || 0}</p>
+                    <button onClick={handleLogout}>Logout</button>
+                  </div>
+                )}
+              </li>
+            ) : (
+              <li><Link to="/login" className="nav-btn">Login/Register</Link></li>
+            )}
           </ul>
         </nav>
 
@@ -88,14 +123,13 @@ const Landing = () => {
         </header>
       </div>
 
-      
-      <div style={{ marginTop: "70px" }}> {/*Features section*/}
+      <div style={{ marginTop: "70px" }}>
         <Features />
       </div>
-      
-       <div style={{ marginTop: "-40px" }}> {/*How it WORKS section*/}
+
+      <div style={{ marginTop: "-40px" }}>
         <HowItWorks />
-        </div>
+      </div>
     </div>
   );
 };
