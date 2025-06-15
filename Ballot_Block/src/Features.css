@@ -1,0 +1,74 @@
+.features-section {
+  padding: 60px 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  z-index: 1;
+  position: relative;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: white;
+  text-align: left;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  color: white;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.feature-icon {
+  margin-bottom: 12px;
+}
+
+.feature-text h3 {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.feature-text p {
+  font-size: 0.95rem;
+  margin: 0;
+  color: #d1d5db;
+}
+
+.feature-details {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: #e5e7eb;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+  
+}
+
+.feature-card:hover .feature-details {
+  max-height: 200px;
+  opacity: 1;
+  pointer-events: auto;
+}
