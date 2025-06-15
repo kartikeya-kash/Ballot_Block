@@ -88,8 +88,10 @@ const Landing = () => {
         </header>
       </div>
 
-      {/* Features Section */}
-      <Features />
+      
+      <div style={{ marginTop: "70px" }}> {/*Features section*/}
+        <Features />
+      </div>
     </div>
   );
 };
