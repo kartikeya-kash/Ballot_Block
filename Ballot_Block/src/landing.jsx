@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import "./Landing.css";
 import { Link } from "react-router-dom";
 import Features from "./Features";
+import HowItWorks from './HowItWorks';
+
 
 const Landing = () => {
   useEffect(() => {
@@ -90,6 +92,10 @@ const Landing = () => {
       <div style={{ marginTop: "70px" }}> {/*Features section*/}
         <Features />
       </div>
+      
+       <div style={{ marginTop: "-40px" }}> {/*How it WORKS section*/}
+        <HowItWorks />
+        </div>
     </div>
   );
 };
