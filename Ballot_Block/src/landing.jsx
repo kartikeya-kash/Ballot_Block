@@ -91,8 +91,9 @@ const Landing = () => {
                 </button>
                 {showProfile && (
                   <div className="me-dropdown">
-                    <p><strong>Phone:</strong> {user.phoneNumber}</p>
-                    <p><strong>Voter ID:</strong> {user.voterId || "Assigned After Registration"}</p>
+<p style={{ backgroundColor: "black", padding: "4px 8px", borderRadius: "6px" }}>
+  <strong>Phone:</strong> {user.phoneNumber}
+</p>                    <p><strong>Voter ID:</strong> {user.voterId || "Assigned After Registration"}</p>
                     <p><strong>Voted:</strong> {user.hasVoted ? "Yes" : "No"}</p>
                     <p><strong>Stored Blocks:</strong> {JSON.parse(localStorage.getItem("blockchain"))?.length || 0}</p>
                     <button className="logout-btn" onClick={handleLogout}>Logout</button>
