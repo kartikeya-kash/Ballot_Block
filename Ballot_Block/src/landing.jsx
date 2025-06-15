@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Landing.css";
 import { Link } from "react-router-dom";
 import Features from "./Features";
@@ -8,6 +8,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 const Landing = () => {
   const [user, setUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
+  const dropdownRef = useRef();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -18,10 +19,7 @@ const Landing = () => {
         fullScreen: { enable: false },
         detectRetina: true,
         particles: {
-          number: {
-            value: 60,
-            density: { enable: true, area: 800 },
-          },
+          number: { value: 60, density: { enable: true, area: 800 } },
           size: { value: 2 },
           color: { value: "#5c8df6" },
           links: {
@@ -30,22 +28,11 @@ const Landing = () => {
             opacity: 0.15,
             width: 1,
           },
-          move: {
-            enable: true,
-            speed: 0.3,
-          },
+          move: { enable: true, speed: 0.3 },
         },
         interactivity: {
-          events: {
-            onHover: { enable: true, mode: "repulse" },
-            resize: true,
-          },
-          modes: {
-            repulse: {
-              distance: 80,
-              duration: 0.4,
-            },
-          },
+          events: { onHover: { enable: true, mode: "repulse" }, resize: true },
+          modes: { repulse: { distance: 80, duration: 0.4 } },
         },
         background: { color: "transparent" },
       });
@@ -62,7 +49,17 @@ const Landing = () => {
       }
     });
 
-    return () => unsubscribe();
+    // Hide dropdown on outside click
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowProfile(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      unsubscribe();
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -80,21 +77,25 @@ const Landing = () => {
             <img src="/logo.svg" alt="logo" className="logo-icon" />
             <span>BallotBlock</span>
           </div>
+
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#howitworks">How It Works</a></li>
             <li><a href="https://github.com/kartikeya-kash/Ballot_Block" target="_blank" rel="noopener noreferrer">Github</a></li>
+
             {user ? (
-              <li className="me-menu">
-                <span onClick={() => setShowProfile(!showProfile)}>Me ▾</span>
+              <li className="me-wrapper" ref={dropdownRef}>
+                <button onClick={() => setShowProfile(!showProfile)} className="me-btn">
+                  Me ⌄
+                </button>
                 {showProfile && (
                   <div className="me-dropdown">
                     <p><strong>Phone:</strong> {user.phoneNumber}</p>
                     <p><strong>Voter ID:</strong> {user.voterId || "Assigned After Registration"}</p>
                     <p><strong>Voted:</strong> {user.hasVoted ? "Yes" : "No"}</p>
                     <p><strong>Stored Blocks:</strong> {JSON.parse(localStorage.getItem("blockchain"))?.length || 0}</p>
-                    <button onClick={handleLogout}>Logout</button>
+                    <button className="logout-btn" onClick={handleLogout}>Logout</button>
                   </div>
                 )}
               </li>
@@ -126,7 +127,6 @@ const Landing = () => {
       <div style={{ marginTop: "70px" }}>
         <Features />
       </div>
-
       <div style={{ marginTop: "-40px" }}>
         <HowItWorks />
       </div>
