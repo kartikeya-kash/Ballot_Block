@@ -60,11 +60,9 @@ const Landing = () => {
           </div>
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">How It Works</a></li>
-            <li><a href="#">Demo</a></li>
-            <li><a href="#">Docs</a></li>
-            <li><a href="#">Github</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#howitworks">How It Works</a></li>
+            <li>  <a href="https://github.com/kartikeya-kash/Ballot_Block" target="_blank" rel="noopener noreferrer">Github</a></li>
             <li><Link to="/login" className="nav-btn">Login/Register</Link></li>
           </ul>
         </nav>
