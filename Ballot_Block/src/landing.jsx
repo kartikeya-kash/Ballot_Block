@@ -87,7 +87,7 @@ const Landing = () => {
             {user ? (
               <li className="me-wrapper" ref={dropdownRef}>
                 <button onClick={() => setShowProfile(!showProfile)} className="me-btn">
-                  Me ⌄
+                  👤
                 </button>
                 {showProfile && (
                   <div className="me-dropdown">
