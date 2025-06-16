@@ -20,7 +20,6 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-
 // Connect to MySQL
 db.connect((err) => {
   if (err) {
@@ -30,12 +29,13 @@ db.connect((err) => {
   console.log('✅ Connected to MySQL');
 });
 
+// Store new user
 app.post('/api/store-user', (req, res) => {
-  const { name, phone } = req.body;
-  console.log("📥 Received from frontend:", name, phone);
+  const { name, phone, voterNumber } = req.body;
+  console.log("📥 Received from frontend:", name, phone, voterNumber);
 
-  const query = 'INSERT INTO users (name, phone) VALUES (?, ?)';
-  db.query(query, [name, phone], (err, result) => {
+  const query = 'INSERT INTO users (name, phone, voternumber) VALUES (?, ?, ?)';
+db.query(query, [name, phone, voternumber], (err, result) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ success: false, message: 'Phone number already exists' });
@@ -45,7 +45,25 @@ app.post('/api/store-user', (req, res) => {
       return res.status(500).json({ success: false, message: 'Database error' });
     }
 
-    res.json({ success: true, message: 'User stored successfully', phone });
+    res.json({ success: true, message: 'User stored successfully', phone, voterNumber });
+  });
+});
+
+app.post('/api/mark-voted', (req, res) => {
+  const { phone } = req.body;
+  const query = 'UPDATE users SET hasVoted = TRUE WHERE phone = ?';
+
+  db.query(query, [phone], (err, result) => {
+    if (err) {
+      console.error('❌ DB Update Error:', err.message);
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, message: 'Vote status updated to true' });
   });
 });
 

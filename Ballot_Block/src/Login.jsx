@@ -42,28 +42,39 @@ const Login = () => {
   };
 
   const storeData = async (e) => {
-    e.preventDefault();
-    let usrname = document.getElementById('usrname').value;
-    let pn = document.getElementById('phonenumber').value;
-    if (validatedata(usrname, pn)) {
-      const userData = { name: usrname, phone: pn };
-      try {
-        const response = await fetch("https://ballot-block.onrender.com/api/store-user", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(userData),
-        });
-        const result = await response.json();
-        if (result.success) {
-          alert(` "${usrname}" registered successfully!! Please login`);
-        } else {
-          alert(result.message);
-        }
-      } catch (error) {
-        alert(error.message);
+  e.preventDefault();
+  let usrname = document.getElementById('usrname').value;
+  let pn = document.getElementById('phonenumber').value;
+
+  if (validatedata(usrname, pn)) {
+    const voterID = Math.floor(100000000000 + Math.random() * 900000000000).toString();
+
+    const userData = {
+      name: usrname,
+      phone: pn,
+      voterID: voterID,
+      hasVoted: false,
+    };
+
+    try {
+      const response = await fetch("https://ballot-block.onrender.com/api/store-user", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert(`🎉 "${usrname}" registered successfully!\n🆔 Your Voter ID: ${voterID}\n✅ Please proceed to login.`);
+      } else {
+        alert(result.message);
       }
+    } catch (error) {
+      alert("❌ Registration failed: " + error.message);
     }
-  };
+  }
+};
 
   useEffect(() => {
     if (!window.recaptchaVerifier) {
