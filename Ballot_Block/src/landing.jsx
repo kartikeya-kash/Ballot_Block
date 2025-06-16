@@ -6,6 +6,7 @@ import Features from "./Features";
 import HowItWorks from './HowItWorks';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
+
 const Landing = () => {
   const [user, setUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);

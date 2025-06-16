@@ -4,7 +4,10 @@ import styled from 'styled-components';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import "./Landing.css";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import AddCandidates from './AddCandidates.jsx'; 
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXM-gjrHwRlsWn-sah7b9HnoaWykzVG6k",
@@ -21,6 +24,8 @@ if (!firebase.apps.length) {
 }
 
 const Login = () => {
+      const navigate = useNavigate();
+
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [showOtp, setShowOtp] = useState(false);
@@ -28,6 +33,7 @@ const Login = () => {
   const confirmationResultRef = useRef(null);
   const nameRegex = /^[A-Za-z]+$/;
   const phoneRegex = /^\+91[0-9]{10}$/;
+
 
   const validatedata = (usrname, pn) => {
     if (!nameRegex.test(usrname)) {
@@ -101,7 +107,16 @@ const Login = () => {
   const verifyOTP = (e) => {
     e.preventDefault();
     confirmationResultRef.current.confirm(otp)
-      .then(() => alert("✅ Phone number verified successfully! please visit the home page."))
+      .then((result) => {
+  const user = result.user;
+  alert("✅ Phone number verified successfully! Please wait...");
+
+  if (user.phoneNumber === "+919920621584") {
+    navigate("/add-candidates");
+  } else {
+    navigate("/"); 
+  }
+})
       .catch(() => alert("❌ OTP verification failed. Please try again."));
   };
 
