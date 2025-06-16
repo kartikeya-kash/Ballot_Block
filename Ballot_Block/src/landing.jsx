@@ -55,7 +55,7 @@ const Landing = () => {
             setUser({ ...firebaseUser, ...result.user });
           } else {
             console.error(result.message);
-            setUser(firebaseUser); // fallback
+            setUser(firebaseUser); 
           }
         } catch (error) {
           console.error("❌ Failed to fetch user data:", error);

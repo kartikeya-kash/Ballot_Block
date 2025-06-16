@@ -101,7 +101,7 @@ const Login = () => {
   const verifyOTP = (e) => {
     e.preventDefault();
     confirmationResultRef.current.confirm(otp)
-      .then(() => alert("✅ Phone number verified successfully!"))
+      .then(() => alert("✅ Phone number verified successfully! please visit the home page."))
       .catch(() => alert("❌ OTP verification failed. Please try again."));
   };
 
@@ -199,7 +199,7 @@ const Login = () => {
                 </form>
               </div>
 
-              {/* Signup Form (Just UI placeholder for now) */}
+              {/* Signup Form  */}
               <div className="flip-card__back">
                 <div className="title">Sign up</div>
                 <form className="flip-card__form">
