@@ -40,10 +40,26 @@ const Landing = () => {
     document.body.appendChild(script);
 
     const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const voterData = JSON.parse(localStorage.getItem("voterData")) || {};
-        setUser({ ...firebaseUser, ...voterData });
+        try {
+          const response = await fetch("https://ballot-block.onrender.com/api/get-user", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone: firebaseUser.phoneNumber }),
+          });
+
+          const result = await response.json();
+          if (result.success) {
+            setUser({ ...firebaseUser, ...result.user });
+          } else {
+            console.error(result.message);
+            setUser(firebaseUser); // fallback
+          }
+        } catch (error) {
+          console.error("❌ Failed to fetch user data:", error);
+          setUser(firebaseUser);
+        }
       } else {
         setUser(null);
       }
@@ -91,9 +107,10 @@ const Landing = () => {
                 </button>
                 {showProfile && (
                   <div className="me-dropdown">
-<p style={{ backgroundColor: "black", padding: "4px 8px", borderRadius: "6px" }}>
-  <strong>Phone:</strong> {user.phoneNumber}
-</p>                    <p><strong>Voter ID:</strong> {user.voterId || "Assigned After Registration"}</p>
+                    <p style={{ backgroundColor: "black", padding: "4px 8px", borderRadius: "6px" }}>
+                      <strong>Phone:</strong> {user.phoneNumber}
+                    </p>
+                    <p><strong>Voter ID:</strong> {user.voternumber || "Not Assigned"}</p>
                     <p><strong>Voted:</strong> {user.hasVoted ? "Yes" : "No"}</p>
                     <p><strong>Stored Blocks:</strong> {JSON.parse(localStorage.getItem("blockchain"))?.length || 0}</p>
                     <button className="logout-btn" onClick={handleLogout}>Logout</button>

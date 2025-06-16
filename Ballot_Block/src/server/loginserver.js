@@ -1,4 +1,3 @@
-// all deployed completely
 import express from 'express';
 import cors from 'cors';
 import mysql from 'mysql2';
@@ -31,11 +30,11 @@ db.connect((err) => {
 
 // Store new user
 app.post('/api/store-user', (req, res) => {
-  const { name, phone, voterNumber } = req.body;
-  console.log("📥 Received from frontend:", name, phone, voterNumber);
+  const { name, phone, voterID, hasVoted } = req.body;
+  console.log("📥 Received from frontend:", name, phone, voterID, hasVoted);
 
-  const query = 'INSERT INTO users (name, phone, voternumber) VALUES (?, ?, ?)';
-db.query(query, [name, phone, voternumber], (err, result) => {
+  const query = 'INSERT INTO users (name, phone, voternumber, hasvoted) VALUES (?, ?, ?, ?)';
+  db.query(query, [name, phone, voterID, hasVoted], (err, result) => {
     if (err) {
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ success: false, message: 'Phone number already exists' });
@@ -45,9 +44,28 @@ db.query(query, [name, phone, voternumber], (err, result) => {
       return res.status(500).json({ success: false, message: 'Database error' });
     }
 
-    res.json({ success: true, message: 'User stored successfully', phone, voterNumber });
+    res.json({ success: true, message: 'User stored successfully', phone });
   });
 });
+
+app.post('/api/get-user', (req, res) => {
+  const { phone } = req.body;
+
+  const query = 'SELECT name, phone, voternumber, hasVoted FROM users WHERE phone = ?';
+  db.query(query, [phone], (err, results) => {
+    if (err) {
+      console.error('❌ DB Fetch Error:', err.message);
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, user: results[0] });
+  });
+});
+
 
 app.post('/api/mark-voted', (req, res) => {
   const { phone } = req.body;
