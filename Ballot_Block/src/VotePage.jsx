@@ -81,15 +81,18 @@ function VotePage() {
 
  const handleVote = () => {
   if (!selectedCandidate) return alert('Select a candidate');
-  if (localStorage.getItem('voteCast')) return alert("You've already voted");
+  if (localStorage.getItem('voteCast')) { 
+    alert("You've already voted");
+     navigate('/');
+     return;
+  }
 
   localStorage.setItem('voteCast', selectedCandidate);
   alert('✅ Vote recorded');
 
-  // Redirect to home after short delay
   setTimeout(() => {
     navigate('/');
-  }, 100); // Delay so alert can show before navigation
+  }, 100); 
 };
 
   function dataURItoBlob(dataURI) {
