@@ -7,6 +7,8 @@ import HowItWorks from './HowItWorks';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import VotePage from './VotePage.jsx';
 import { useNavigate } from 'react-router-dom';
+import RegisterFace from './RegisterFace.jsx';
+
 
 
 

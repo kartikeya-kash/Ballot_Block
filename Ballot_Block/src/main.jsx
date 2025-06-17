@@ -8,6 +8,7 @@ import AddCandidates from './AddCandidates.jsx';
 import { useNavigate } from 'react-router-dom';
 import VotePage from './VotePage.jsx';
 import ProtectedRoute from './ProtectedRoute.jsx';
+import RegisterFace from './RegisterFace.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-candidates" element={<AddCandidates />} />
+        
         <Route
           path="/vote"
           element={
@@ -25,6 +27,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             </ProtectedRoute>
           }
         />
+
+        <Route path="/register-face" element={<RegisterFace />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
