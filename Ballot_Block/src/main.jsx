@@ -6,6 +6,9 @@ import Login from './Login.jsx';
 import './index.css';
 import AddCandidates from './AddCandidates.jsx'; 
 import { useNavigate } from 'react-router-dom';
+import VotePage from './VotePage.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
+
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -14,6 +17,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/add-candidates" element={<AddCandidates />} />
+        <Route
+          path="/vote"
+          element={
+            <ProtectedRoute>
+              <VotePage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

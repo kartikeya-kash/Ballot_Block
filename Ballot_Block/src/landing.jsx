@@ -5,12 +5,16 @@ import { Link } from "react-router-dom";
 import Features from "./Features";
 import HowItWorks from './HowItWorks';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import VotePage from './VotePage.jsx';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Landing = () => {
   const [user, setUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const dropdownRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -67,7 +71,6 @@ const Landing = () => {
       }
     });
 
-    // Hide dropdown on outside click
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setShowProfile(false);
@@ -137,8 +140,9 @@ const Landing = () => {
             Secured by OTP. Forever tamper-proof.
           </p>
           <div className="hero-buttons">
-            <button className="primary-btn">Start Voting</button>
-            <button className="secondary-btn">View Docs</button>
+<button className="primary-btn" onClick={() => navigate('/vote')}>
+  Start Voting
+</button>            <button className="secondary-btn">View Docs</button>
             <button className="secondary-btn">Watch Demo</button>
           </div>
         </header>
