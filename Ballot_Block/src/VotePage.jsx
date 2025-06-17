@@ -79,13 +79,18 @@ function VotePage() {
     reader.readAsDataURL(liveFace);
   };
 
-  const handleVote = () => {
-    if (!selectedCandidate) return alert('Select a candidate');
-    if (localStorage.getItem('voteCast')) return alert("You've already voted");
-    localStorage.setItem('voteCast', selectedCandidate);
-    alert('✅ Vote recorded');
+ const handleVote = () => {
+  if (!selectedCandidate) return alert('Select a candidate');
+  if (localStorage.getItem('voteCast')) return alert("You've already voted");
+
+  localStorage.setItem('voteCast', selectedCandidate);
+  alert('✅ Vote recorded');
+
+  // Redirect to home after short delay
+  setTimeout(() => {
     navigate('/');
-  };
+  }, 100); // Delay so alert can show before navigation
+};
 
   function dataURItoBlob(dataURI) {
     const [meta, data] = dataURI.split(',');
