@@ -12,6 +12,7 @@ function VotePage() {
   const [selectedCandidate, setSelectedCandidate] = useState('');
   const [liveFace, setLiveFace] = useState(null);
   const [stage, setStage] = useState('checkAuth');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,7 +48,9 @@ function VotePage() {
 
   const verifyFace = async () => {
     if (!liveFace) return alert('Upload your face picture');
-
+    
+    setIsLoading(true);
+    
     const reader = new FileReader();
     reader.onload = async () => {
       const regFace = localStorage.getItem('registeredFace');
@@ -74,26 +77,29 @@ function VotePage() {
       } catch (err) {
         alert('⚠️ Error verifying face: ' + err.message);
         setStage('getLive');
+      } finally {
+        setIsLoading(false);
       }
     };
     reader.readAsDataURL(liveFace);
   };
 
- const handleVote = () => {
-  if (!selectedCandidate) return alert('Select a candidate');
-  if (localStorage.getItem('voteCast')) { 
-    alert("You've already voted");
-     navigate('/');
-     return;
-  }
+  const handleVote = () => {
+    if (!selectedCandidate) return alert('Select a candidate');
+    if (localStorage.getItem('voteCast')) { 
+      alert("You've already voted");
+      navigate('/');
+      return;
+    }
 
-  localStorage.setItem('voteCast', selectedCandidate);
-  alert('✅ Vote recorded');
+    setIsLoading(true);
+    localStorage.setItem('voteCast', selectedCandidate);
+    alert('✅ Vote recorded');
 
-  setTimeout(() => {
-    navigate('/');
-  }, 100); 
-};
+    setTimeout(() => {
+      navigate('/');
+    }, 100); 
+  };
 
   function dataURItoBlob(dataURI) {
     const [meta, data] = dataURI.split(',');
@@ -107,39 +113,309 @@ function VotePage() {
     return new Blob([ab], { type: mime });
   }
 
-  if (stage === 'checkAuth') return <p style={{ color: 'white', backgroundColor: 'black', padding: '20px' }}>Checking authentication...</p>;
+  const styles = {
+    container: {
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #2a3c57 100%)',
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '20px',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      overflow: 'hidden'
+    },
+    stars: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: `
+        radial-gradient(2px 2px at 20px 30px, #4a90e2, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(74, 144, 226, 0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #4a90e2, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(74, 144, 226, 0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #4a90e2, transparent),
+        radial-gradient(1px 1px at 200px 90px, rgba(74, 144, 226, 0.7), transparent),
+        radial-gradient(2px 2px at 240px 50px, #4a90e2, transparent),
+        radial-gradient(1px 1px at 280px 20px, rgba(74, 144, 226, 0.5), transparent),
+        radial-gradient(1px 1px at 320px 100px, #4a90e2, transparent),
+        radial-gradient(2px 2px at 360px 60px, rgba(74, 144, 226, 0.8), transparent)
+      `,
+      backgroundSize: '400px 150px',
+      animation: 'twinkle 8s ease-in-out infinite alternate',
+      zIndex: 1
+    },
+    content: {
+      background: 'rgba(15, 20, 25, 0.85)',
+      backdropFilter: 'blur(20px)',
+      border: '1px solid rgba(74, 144, 226, 0.2)',
+      borderRadius: '16px',
+      padding: '40px',
+      maxWidth: '600px',
+      width: '100%',
+      textAlign: 'center',
+      position: 'relative',
+      zIndex: 2,
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+    },
+    title: {
+      fontSize: '2.5rem',
+      fontWeight: '700',
+      color: 'white',
+      marginBottom: '16px',
+      textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+    },
+    subtitle: {
+      fontSize: '1.125rem',
+      color: '#94a3b8',
+      marginBottom: '32px',
+      lineHeight: '1.6'
+    },
+    lockIcon: {
+      fontSize: '4rem',
+      color: '#4a90e2',
+      marginBottom: '24px',
+      display: 'block'
+    },
+    button: {
+      background: '#4a90e2',
+      color: 'white',
+      border: 'none',
+      borderRadius: '8px',
+      padding: '12px 24px',
+      fontSize: '1rem',
+      fontWeight: '600',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      minWidth: '140px',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px'
+    },
+    buttonHover: {
+      background: '#357abd',
+      transform: 'translateY(-2px)',
+      boxShadow: '0 4px 12px rgba(74, 144, 226, 0.3)'
+    },
+    buttonDisabled: {
+      opacity: '0.6',
+      cursor: 'not-allowed',
+      transform: 'none'
+    },
+    secondaryButton: {
+      background: 'rgba(74, 144, 226, 0.1)',
+      color: '#4a90e2',
+      border: '1px solid rgba(74, 144, 226, 0.3)'
+    },
+    fileUpload: {
+      display: 'none'
+    },
+    fileUploadLabel: {
+      display: 'block',
+      background: 'rgba(74, 144, 226, 0.1)',
+      border: '2px dashed rgba(74, 144, 226, 0.3)',
+      borderRadius: '12px',
+      padding: '40px 20px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      marginBottom: '24px'
+    },
+    fileUploadLabelHover: {
+      background: 'rgba(74, 144, 226, 0.15)',
+      borderColor: 'rgba(74, 144, 226, 0.5)'
+    },
+    candidateContainer: {
+      textAlign: 'left',
+      marginBottom: '32px'
+    },
+    candidateOption: {
+      display: 'flex',
+      alignItems: 'center',
+      background: 'rgba(74, 144, 226, 0.05)',
+      border: '1px solid rgba(74, 144, 226, 0.2)',
+      borderRadius: '8px',
+      padding: '16px',
+      marginBottom: '12px',
+      cursor: 'pointer',
+      transition: 'all 0.3s ease',
+      color: 'white'
+    },
+    candidateOptionHover: {
+      background: 'rgba(74, 144, 226, 0.1)',
+      borderColor: 'rgba(74, 144, 226, 0.4)'
+    },
+    candidateOptionSelected: {
+      background: 'rgba(74, 144, 226, 0.2)',
+      borderColor: '#4a90e2'
+    },
+    radioInput: {
+      marginRight: '12px',
+      transform: 'scale(1.2)'
+    },
+    loadingSpinner: {
+      width: '16px',
+      height: '16px',
+      border: '2px solid rgba(255, 255, 255, 0.3)',
+      borderTop: '2px solid white',
+      borderRadius: '50%',
+      animation: 'spin 1s linear infinite'
+    }
+  };
+
+  const keyframes = `
+    @keyframes twinkle {
+      0% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+      100% { opacity: 0.3; }
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  `;
+
+  if (stage === 'checkAuth') {
+    return (
+      <>
+        <style>{keyframes}</style>
+        <div style={styles.container}>
+          <div style={styles.stars}></div>
+          <div style={styles.content}>
+            <span style={styles.lockIcon}>🔐</span>
+            <h1 style={styles.title}>BallotBlock</h1>
+            <p style={styles.subtitle}>Authenticating your session...</p>
+            <p style={{color: '#64748b', fontSize: '0.875rem'}}>Please wait while we verify your credentials</p>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (stage === 'getLive') {
     return (
-      <div style={{ padding: '20px', backgroundColor: 'black', color: 'white', minHeight: '100vh' }}>
-        <h1>📸 Upload Live Photo for Verification</h1>
-        <input type="file" accept="image/*" onChange={handleLiveUpload} />
-        <br /><br />
-        <button onClick={verifyFace}>Verify Face</button>
-      </div>
+      <>
+        <style>{keyframes}</style>
+        <div style={styles.container}>
+          <div style={styles.stars}></div>
+          <div style={styles.content}>
+            <span style={styles.lockIcon}>📸</span>
+            <h1 style={styles.title}>Face Verification</h1>
+            <p style={styles.subtitle}>
+              Upload a live photo for biometric verification to proceed with voting
+            </p>
+            
+            <label 
+              style={styles.fileUploadLabel} 
+              htmlFor="faceUpload"
+              onMouseEnter={(e) => Object.assign(e.target.style, styles.fileUploadLabelHover)}
+              onMouseLeave={(e) => Object.assign(e.target.style, styles.fileUploadLabel)}
+            >
+              <input
+                id="faceUpload"
+                type="file"
+                accept="image/*"
+                onChange={handleLiveUpload}
+                style={styles.fileUpload}
+              />
+              <div style={{fontSize: '2.5rem', marginBottom: '12px'}}>📷</div>
+              <div style={{fontSize: '1.125rem', fontWeight: '600', marginBottom: '4px', color: 'white'}}>
+                {liveFace ? liveFace.name : 'Click to upload your photo'}
+              </div>
+              <div style={{fontSize: '0.875rem', color: '#94a3b8'}}>
+                Supported formats: JPG, PNG, WebP
+              </div>
+            </label>
+
+            <button
+              style={{
+                ...styles.button,
+                ...(isLoading && styles.buttonDisabled)
+              }}
+              onClick={verifyFace}
+              disabled={isLoading}
+              onMouseEnter={(e) => !isLoading && Object.assign(e.target.style, {...styles.button, ...styles.buttonHover})}
+              onMouseLeave={(e) => !isLoading && Object.assign(e.target.style, styles.button)}
+            >
+              {isLoading && <div style={styles.loadingSpinner}></div>}
+              {isLoading ? 'Verifying...' : 'Verify Face'}
+            </button>
+          </div>
+        </div>
+      </>
     );
   }
 
   if (stage === 'voting') {
     return (
-      <div style={{ padding: '20px', backgroundColor: 'black', color: 'white', minHeight: '100vh' }}>
-        <h1>🗳️ Cast Your Vote</h1>
-        {electionData.candidates.map((c, idx) => (
-          <div key={idx}>
-            <label>
-              <input
-                type="radio"
-                name="vote"
-                value={c.name}
-                onChange={e => setSelectedCandidate(e.target.value)}
-              />
-              {c.name} ({c.party})
-            </label>
+      <>
+        <style>{keyframes}</style>
+        <div style={styles.container}>
+          <div style={styles.stars}></div>
+          <div style={styles.content}>
+            <span style={styles.lockIcon}>🗳️</span>
+            <h1 style={styles.title}>Cast Your Vote</h1>
+            <p style={styles.subtitle}>
+              Select your preferred candidate and submit your vote securely
+            </p>
+
+            <div style={styles.candidateContainer}>
+              {electionData.candidates.map((candidate, idx) => (
+                <label
+                  key={idx}
+                  style={{
+                    ...styles.candidateOption,
+                    ...(selectedCandidate === candidate.name && styles.candidateOptionSelected)
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedCandidate !== candidate.name) {
+                      Object.assign(e.currentTarget.style, {...styles.candidateOption, ...styles.candidateOptionHover});
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedCandidate !== candidate.name) {
+                      Object.assign(e.currentTarget.style, styles.candidateOption);
+                    }
+                  }}
+                >
+                  <input
+                    type="radio"
+                    name="vote"
+                    value={candidate.name}
+                    onChange={e => setSelectedCandidate(e.target.value)}
+                    style={styles.radioInput}
+                  />
+                  <div>
+                    <div style={{fontWeight: '600', marginBottom: '2px', fontSize: '1.125rem'}}>
+                      {candidate.name}
+                    </div>
+                    <div style={{fontSize: '0.875rem', color: '#94a3b8'}}>
+                      {candidate.party}
+                    </div>
+                  </div>
+                </label>
+              ))}
+            </div>
+
+            <button
+              style={{
+                ...styles.button,
+                ...(isLoading && styles.buttonDisabled)
+              }}
+              onClick={handleVote}
+              disabled={isLoading}
+              onMouseEnter={(e) => !isLoading && Object.assign(e.target.style, {...styles.button, ...styles.buttonHover})}
+              onMouseLeave={(e) => !isLoading && Object.assign(e.target.style, styles.button)}
+            >
+              {isLoading && <div style={styles.loadingSpinner}></div>}
+              {isLoading ? 'Submitting...' : 'Submit Vote'}
+            </button>
           </div>
-        ))}
-        <br />
-        <button onClick={handleVote}>Submit Vote</button>
-      </div>
+        </div>
+      </>
     );
   }
 
