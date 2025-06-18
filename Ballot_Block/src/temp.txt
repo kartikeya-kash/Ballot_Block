@@ -1,87 +1,74 @@
-const [candidates, setCandidates] = useState([{ name: "", party: "" }]);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-  const handleAddCandidate = () => {
-    setCandidates([...candidates, { name: "", party: "" }]);
-  };
+function RegisterFace() {
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
-  const handleChange = (index, field, value) => {
-    const updated = [...candidates];
-    updated[index][field] = value;
-    setCandidates(updated);
-  };
+  const handleUpload = () => {
+    if (!image) return alert('Please select a photo');
 
-  const handleSubmit = () => {
-    if (!startTime || !endTime || candidates.length === 0) {
-      alert("Please fill all fields.");
-      return;
-    }
-
-    const electionData = {
-      candidates,
-      startTime,
-      endTime,
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.result) {
+        localStorage.setItem('registeredFace', reader.result);
+        alert('✅ Face registered successfully!');
+        navigate('/vote');
+      } else {
+        alert('⚠️ Something went wrong. Could not read image.');
+      }
     };
-
-    localStorage.setItem("electionData", JSON.stringify(electionData));
-    alert("Election data saved successfully!");
-
+    reader.onerror = () => {
+      alert('❌ Error reading the file');
+    };
+    reader.readAsDataURL(image);
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto text-white">
-      <h1 className="text-3xl font-bold mb-4">🗳️ Set Up Election</h1>
+    <div style={{
+      padding: '40px',
+      background: 'black',
+      color: 'white',
+      minHeight: '100vh',
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '20px'
+    }}>
+      <h1 style={{ marginBottom: '20px' }}>Upload Your Face for Verification</h1>
 
-      {candidates.map((candidate, index) => (
-        <div key={index} className="flex gap-3 mb-3">
-          <input
-            type="text"
-            placeholder="Candidate Name"
-            className="flex-1 p-2 rounded bg-gray-800"
-            value={candidate.name}
-            onChange={(e) => handleChange(index, "name", e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Party"
-            className="flex-1 p-2 rounded bg-gray-800"
-            value={candidate.party}
-            onChange={(e) => handleChange(index, "party", e.target.value)}
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setImage(e.target.files[0])}
+      />
+      
+      {image && (
+        <div style={{ marginTop: '20px' }}>
+          <strong>Preview:</strong><br />
+          <img
+            src={URL.createObjectURL(image)}
+            alt="Preview"
+            style={{ width: '200px', marginTop: '10px', borderRadius: '8px' }}
           />
         </div>
-      ))}
+      )}
 
+      <br /><br />
       <button
-        className="mt-2 px-4 py-2 bg-blue-600 rounded"
-        onClick={handleAddCandidate}
+        onClick={handleUpload}
+        style={{
+          padding: '10px 20px',
+          backgroundColor: 'green',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          fontSize: '18px'
+        }}
       >
-        ➕ Add Candidate
-      </button>
-
-      <div className="mt-6">
-        <label className="block mb-1 font-semibold">🕓 Voting Start Time:</label>
-        <input
-          type="datetime-local"
-          className="w-full p-2 bg-gray-800 rounded"
-          value={startTime}
-          onChange={(e) => setStartTime(e.target.value)}
-        />
-
-        <label className="block mt-4 mb-1 font-semibold">🕕 Voting End Time:</label>
-        <input
-          type="datetime-local"
-          className="w-full p-2 bg-gray-800 rounded"
-          value={endTime}
-          onChange={(e) => setEndTime(e.target.value)}
-        />
-      </div>
-
-      <button
-        className="mt-6 w-full py-3 bg-green-600 rounded text-lg font-bold"
-        onClick={handleSubmit}
-      >
-        ✅ Save Election Details
+        Submit Photo
       </button>
     </div>
   );
+}
+
+export default RegisterFace;
