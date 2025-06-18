@@ -12,7 +12,7 @@ import RegisterFace from './RegisterFace.jsx';
 
 
 
-const Landing = () => {
+const Landing = () => { 
   const [user, setUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const dropdownRef = useRef();
