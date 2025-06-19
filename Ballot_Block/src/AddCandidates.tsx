@@ -49,6 +49,9 @@ const handleSubmit = async () => {
     alert("❌ Error saving election data.");
   }
 };
+
+
+
   const styles = {
     container: {
       minHeight: "100vh",
