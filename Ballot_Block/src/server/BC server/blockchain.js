@@ -19,12 +19,12 @@ class Blockchain {
     this.chain.push(newBlock);
   }
 
-  hasUserVoted(userHash, voterId) {
-    return this.chain.some(block => {
-      const data = block.data;
-      return data.userIdHash === userHash || data.voterId === voterId;
-    });
-  }
+  hasUserVoted(userHash) {
+  return this.chain.some(block => {
+    const data = block.data;
+    return data.userIdHash === userHash;
+  });
+}
 }
 
 module.exports = Blockchain;

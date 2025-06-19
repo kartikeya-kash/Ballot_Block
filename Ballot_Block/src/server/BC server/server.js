@@ -13,21 +13,20 @@ function hashPhone(phone) {
 }
 
 app.post('/voted-data', (req, res) => {
-  const { phone, voterId, votedFor } = req.body;
+  const { phone, votedFor } = req.body;
 
-  if (!phone || !voterId || !votedFor) {
-    return res.status(400).json({ message: 'Missing phone, voterId, or votedFor.' });
+  if (!phone || !votedFor) {
+    return res.status(400).json({ message: 'Missing phone or votedFor.' });
   }
 
   const userHash = hashPhone(phone);
 
-  if (blockchain.hasUserVoted(userHash, voterId)) {
+  if (blockchain.hasUserVoted(userHash)) {
     return res.status(403).json({ message: '❌ You have already voted.' });
   }
 
   const voteData = {
     userIdHash: userHash,
-    voterId,
     votedFor
   };
 
@@ -41,7 +40,6 @@ app.post('/voted-data', (req, res) => {
 
   res.status(201).json({ message: '✅ Vote recorded successfully.', block: newBlock });
 });
-
 app.get('/chain', (req, res) => {
   res.json(blockchain.chain);
 });
