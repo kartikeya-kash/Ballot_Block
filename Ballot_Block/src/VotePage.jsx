@@ -84,22 +84,43 @@ function VotePage() {
     reader.readAsDataURL(liveFace);
   };
 
-  const handleVote = () => {
-    if (!selectedCandidate) return alert('Select a candidate');
-    if (localStorage.getItem('voteCast')) { 
-      alert("You've already voted");
+const handleVote = async () => {
+  if (!selectedCandidate) return alert('Select a candidate');
+
+  const user = firebase.auth().currentUser;
+  if (!user || !user.phoneNumber) {
+    alert("User not logged in or phone number missing.");
+    return;
+  }
+
+  setIsLoading(true);
+
+  try {
+    const response = await fetch('http://localhost:3001/voted-data', { // change URL if deployed
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        phone: user.phoneNumber,
+        votedFor: selectedCandidate
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      alert(result.message || '❌ Vote failed');
+    } else {
+      alert('✅ Vote recorded on the blockchain');
       navigate('/');
-      return;
     }
-
-    setIsLoading(true);
-    localStorage.setItem('voteCast', selectedCandidate);
-    alert('✅ Vote recorded');
-
-    setTimeout(() => {
-      navigate('/');
-    }, 100); 
-  };
+  } catch (err) {
+    alert('⚠️ Error submitting vote: ' + err.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   function dataURItoBlob(dataURI) {
     const [meta, data] = dataURI.split(',');
