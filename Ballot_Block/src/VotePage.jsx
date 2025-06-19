@@ -30,14 +30,25 @@ function VotePage() {
         return;
       }
 
-      const data = localStorage.getItem('electionData');
-      if (!data) {
-        alert('Election data missing');
-        navigate('/');
-        return;
-      }
+      fetch('https://ballot-block.onrender.com/api/candidates')
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) {
+      alert('Failed to load election data');
+      navigate('/');
+      return;
+    }
 
-      setElectionData(JSON.parse(data));
+    const electionObj = { candidates: data.candidates };
+    localStorage.setItem('electionData', JSON.stringify(electionObj));
+    setElectionData(electionObj);
+    setStage('getLive');
+  })
+  .catch(err => {
+    alert('Error fetching election data');
+    navigate('/');
+  });
+
       setStage('getLive');
     });
 

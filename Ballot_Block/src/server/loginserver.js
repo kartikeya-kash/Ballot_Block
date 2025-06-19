@@ -120,6 +120,20 @@ app.post('/setup-election', (req, res) => {
   });
 });
 
+//get candidates data
+app.get('/api/candidates', (req, res) => {
+  const query = 'SELECT name, party FROM candidates';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('❌ DB Fetch Candidates Error:', err.message);
+      return res.status(500).json({ success: false, message: 'Database error' });
+    }
+
+    res.json({ success: true, candidates: results });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
