@@ -22,22 +22,33 @@ function AddCandidates() {
     }
   };
 
-  const handleSubmit = () => {
-    if (!startTime || !endTime || candidates.length === 0) {
-      alert("Please fill all fields.");
-      return;
+const handleSubmit = async () => {
+  if (!startTime || !endTime || candidates.length === 0) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  try {
+    const response = await fetch("https://ballot-block.onrender.com/setup-election", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ candidates }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert("✅ Election data saved to database!");
+    } else {
+      alert(`❌ Failed: ${data.message}`);
     }
-
-    const electionData = {
-      candidates,
-      startTime,
-      endTime,
-    };
-
-    localStorage.setItem("electionData", JSON.stringify(electionData));
-    alert("Election data saved successfully!");
-  };
-
+  } catch (error) {
+    console.error(error);
+    alert("❌ Error saving election data.");
+  }
+};
   const styles = {
     container: {
       minHeight: "100vh",

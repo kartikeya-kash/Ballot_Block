@@ -85,6 +85,26 @@ app.post('/api/mark-voted', (req, res) => {
   });
 });
 
+//setup election with candidates endpoint
+app.post('/setup-election', async (req, res) => {
+  const { candidates } = req.body;
+
+  try {
+    await db.query('SET SQL_SAFE_UPDATES = 0');
+    await db.query('DELETE FROM candidates');
+
+    for (const { name, party } of candidates) {
+      if (!name || !party) continue;
+      await db.query('INSERT INTO candidates (name, party) VALUES (?, ?)', [name, party]);
+    }
+
+    res.status(201).json({ message: 'Candidates saved' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Database error' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

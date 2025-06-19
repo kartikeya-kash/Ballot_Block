@@ -96,7 +96,7 @@ const handleVote = async () => {
   setIsLoading(true);
 
   try {
-    const response = await fetch('http://localhost:3001/voted-data', { // change URL if deployed
+    const response = await fetch('http://localhost:3001/voted-data', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
