@@ -123,6 +123,7 @@ const handleVote = async () => {
 
     if (!response.ok) {
       alert(result.message || '❌ Vote failed');
+      navigate('/chain');
     } else {
       alert('✅ Vote recorded on the blockchain');
        navigate('/chain');
