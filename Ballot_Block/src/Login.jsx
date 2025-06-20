@@ -160,10 +160,7 @@ const Login = () => {
       <div id="tsparticles"></div>
 
       <nav className="navbar">
-        <div className="logo">
-          <img src="/logo.svg" alt="logo" className="logo-icon" />
-          <span>BallotBlock</span>
-        </div>
+      
                   <ul className="nav-links">
           <li><Link to="/">Home</Link></li>
           <li><a href="#">Features</a></li>

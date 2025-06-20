@@ -101,10 +101,7 @@ navigate('/chain');
 
       <div className="hero-section">
         <nav className="navbar">
-          <div className="logo">
-            <img src="/logo.svg" alt="logo" className="logo-icon" />
-            <span>BallotBlock</span>
-          </div>
+         
 
           <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
