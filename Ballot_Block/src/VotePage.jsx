@@ -125,7 +125,7 @@ const handleVote = async () => {
       alert(result.message || '❌ Vote failed');
     } else {
       alert('✅ Vote recorded on the blockchain');
-      navigate('/');
+       navigate('/chain');
     }
   } catch (err) {
     alert('⚠️ Error submitting vote: ' + err.message);
