@@ -48,5 +48,20 @@ app.get('/chain', (req, res) => {
   res.json(blockchain.chain);
 });
 
+app.get('/results', (req, res) => {
+  const voteCounts = {};
+
+  for (let i = 1; i < blockchain.chain.length; i++) {
+    const block = blockchain.chain[i];
+    const votedFor = block.data.votedFor;
+
+    if (votedFor) {
+      voteCounts[votedFor] = (voteCounts[votedFor] || 0) + 1;
+    }
+  }
+
+  res.json(voteCounts);
+});
+
 const PORT = 3001;
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
