@@ -123,7 +123,7 @@ navigate('/chain');
                       <strong>Phone:</strong> {user.phoneNumber}
                     </p>
                     <p><strong>Voter ID:</strong> {user.voternumber || "Not Assigned"}</p>
-                    <button className="logout-btn" onClick={handleseechain}>See Blockchain</button>
+                    <button className="btn" onClick={handleseechain}>Results</button>
                     <button className="logout-btn" onClick={handleLogout}>Logout</button>
                   </div>
                 )}
