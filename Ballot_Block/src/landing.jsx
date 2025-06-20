@@ -90,6 +90,11 @@ const Landing = () => {
     setUser(null);
   };
 
+
+  const handleseechain = () => {
+navigate('/chain');
+  };
+
   return (
     <div>
       <div id="tsparticles"></div>
@@ -118,8 +123,7 @@ const Landing = () => {
                       <strong>Phone:</strong> {user.phoneNumber}
                     </p>
                     <p><strong>Voter ID:</strong> {user.voternumber || "Not Assigned"}</p>
-                    <p><strong>Voted:</strong> {user.hasVoted ? "Yes" : "No"}</p>
-                    <p><strong>Stored Blocks:</strong> {JSON.parse(localStorage.getItem("blockchain"))?.length || 0}</p>
+                    <button className="logout-btn" onClick={handleseechain}>See Blockchain</button>
                     <button className="logout-btn" onClick={handleLogout}>Logout</button>
                   </div>
                 )}
