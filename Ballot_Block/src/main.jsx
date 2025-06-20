@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Landing from './landing.jsx';
 import Login from './Login.jsx';
 import './index.css';
@@ -14,7 +14,7 @@ import ShowChain from './ShowChain';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
@@ -34,6 +34,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
           
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
