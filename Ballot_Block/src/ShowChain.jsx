@@ -5,16 +5,28 @@ const ShowChain = () => {
   const [results, setResults] = useState({});
 
   useEffect(() => {
-    fetch('https://ballot-block-blockchain-server.onrender.com/chain')
-      .then(res => res.json())
-      .then(data => setChain(data))
-      .catch(err => console.error("Error loading chain:", err));
+  fetch('https://ballot-block-blockchain-server.onrender.com/chain')
+    .then(res => res.json())
+    .then(data => {
+      setChain(data);
+      alert('🔗 The full blockchain will now be downloaded to your device.');
 
-    fetch('https://ballot-block-blockchain-server.onrender.com/results')
-      .then(res => res.json())
-      .then(data => setResults(data))
-      .catch(err => console.error("Error loading results:", err));
-  }, []);
+      //trigger download
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'blockchain_chain.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    })
+    .catch(err => console.error("Error loading chain:", err));
+
+  fetch('https://ballot-block-blockchain-server.onrender.com/results')
+    .then(res => res.json())
+    .then(data => setResults(data))
+    .catch(err => console.error("Error loading results:", err));
+}, []);
 
   return (
     <>
