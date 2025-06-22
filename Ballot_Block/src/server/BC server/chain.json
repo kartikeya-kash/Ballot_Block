@@ -1,67 +1,23 @@
 [
   {
     "index": 0,
-    "timestamp": "2025-06-22T06:33:54.871Z",
+    "timestamp": "2025-06-22T08:54:44.369Z",
     "data": {
       "msg": "Genesis Block"
     },
     "previousHash": "0",
     "nonce": 0,
-    "hash": "63800a5b7326278b5ec52116d1293c8b33022d5c70c791cd1140a3468abfe9bb"
+    "hash": "1543eade13c7cd10e8cfd971df916a3a916f75fc5fc021c46ec3aeaed54fe53d"
   },
   {
     "index": 1,
-    "timestamp": "2025-06-22T06:48:03.370Z",
-    "data": {
-      "userIdHash": "a6d0ae96537d1e34268d5df2750eb60c152224dba6ecaf705c2d85e144dc57e6",
-      "votedFor": "abc"
-    },
-    "previousHash": "63800a5b7326278b5ec52116d1293c8b33022d5c70c791cd1140a3468abfe9bb",
-    "nonce": 133,
-    "hash": "00b67a252ba43afea0c42c471d2c93c4c1fe03862131bf22166e072a77d2a25c"
-  },
-  {
-    "index": 2,
-    "timestamp": "2025-06-22T06:49:01.734Z",
-    "data": {
-      "userIdHash": "59553aab294aaef8f926b068dead14941dc9b14d3ec8e84f04bb1f1d0644c73c",
-      "votedFor": "abc"
-    },
-    "previousHash": "00b67a252ba43afea0c42c471d2c93c4c1fe03862131bf22166e072a77d2a25c",
-    "nonce": 895,
-    "hash": "00ba6f18a57702d448f83ce9c7b9451e04ce6cf95cfcfdf8393066f4b4ab2201"
-  },
-  {
-    "index": 3,
-    "timestamp": "2025-06-22T06:50:09.254Z",
-    "data": {
-      "userIdHash": "e139fc5c162e9835725269405d5ab98b3112e19ee2eedf294631ee9356439e98",
-      "votedFor": "abc"
-    },
-    "previousHash": "00ba6f18a57702d448f83ce9c7b9451e04ce6cf95cfcfdf8393066f4b4ab2201",
-    "nonce": 49,
-    "hash": "00b0d6e8d2c771cddd65f1060a7224e1fa19a1b642895a1a8d8dcf9eb4bcffea"
-  },
-  {
-    "index": 4,
-    "timestamp": "2025-06-22T06:51:13.554Z",
-    "data": {
-      "userIdHash": "4c3611fc6536235c9cbb28a01cedb63acac5f99f5a00b60ef0f47488a9b2d53f",
-      "votedFor": "abc"
-    },
-    "previousHash": "00b0d6e8d2c771cddd65f1060a7224e1fa19a1b642895a1a8d8dcf9eb4bcffea",
-    "nonce": 565,
-    "hash": "000ee9b1894541f0841a4e8ace4432d92ea84167b45b78948df39f8f4391041c"
-  },
-  {
-    "index": 5,
-    "timestamp": "2025-06-22T08:51:01.456Z",
+    "timestamp": "2025-06-22T08:55:24.484Z",
     "data": {
       "userIdHash": "214a06121c36f6976be5ef9c56b1bd1cca7ab98dd7578f3e2ee2ce342b9390e1",
-      "votedFor": "def"
+      "votedFor": "abc"
     },
-    "previousHash": "000ee9b1894541f0841a4e8ace4432d92ea84167b45b78948df39f8f4391041c",
-    "nonce": 157,
-    "hash": "00aa1772e054b8af243255544079db5b6639c88a247d32e9bb6778677673ef1b"
+    "previousHash": "1543eade13c7cd10e8cfd971df916a3a916f75fc5fc021c46ec3aeaed54fe53d",
+    "nonce": 598,
+    "hash": "0005ef0c856a60a6d4cbb079825c310be46efb454bac76c7c8780e6f95b5bcc4"
   }
 ]
