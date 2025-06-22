@@ -52,5 +52,16 @@
     "previousHash": "00b0d6e8d2c771cddd65f1060a7224e1fa19a1b642895a1a8d8dcf9eb4bcffea",
     "nonce": 565,
     "hash": "000ee9b1894541f0841a4e8ace4432d92ea84167b45b78948df39f8f4391041c"
+  },
+  {
+    "index": 5,
+    "timestamp": "2025-06-22T08:51:01.456Z",
+    "data": {
+      "userIdHash": "214a06121c36f6976be5ef9c56b1bd1cca7ab98dd7578f3e2ee2ce342b9390e1",
+      "votedFor": "def"
+    },
+    "previousHash": "000ee9b1894541f0841a4e8ace4432d92ea84167b45b78948df39f8f4391041c",
+    "nonce": 157,
+    "hash": "00aa1772e054b8af243255544079db5b6639c88a247d32e9bb6778677673ef1b"
   }
 ]
