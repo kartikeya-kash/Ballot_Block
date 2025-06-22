@@ -28,7 +28,7 @@ function hashPhone(phone) {
 }
 
 app.post('/voted-data', (req, res) => {
-  const { phone, votedFor } = req.body;
+  const { phone, votedFor } = req.body; 
 
   if (!phone || !votedFor) {
     return res.status(400).json({ message: 'Missing phone or votedFor.' });
