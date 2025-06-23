@@ -5,7 +5,7 @@ const ShowChain = () => {
   const [results, setResults] = useState({});
 
   useEffect(() => {
-  fetch('http://localhost:3001/chain')//https://ballot-block-blockchain-server.onrender.com/chain
+  fetch('https://ballot-block-blockchain-server.onrender.com/chain')//
     .then(res => res.json())
     .then(data => {
       setChain(data);
@@ -22,7 +22,7 @@ const ShowChain = () => {
     })
     .catch(err => console.error("Error loading chain:", err));
 
-  fetch('http://localhost:3001/results')//https://ballot-block-blockchain-server.onrender.com/results
+  fetch('https://ballot-block-blockchain-server.onrender.com/results')//
     .then(res => res.json())
     .then(data => setResults(data))
     .catch(err => console.error("Error loading results:", err));
