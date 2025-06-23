@@ -2,7 +2,7 @@
 
 > _Secure • Decentralized • Face-Verified Voting_
 
-BallotBlock is a next-gen, decentralized, blockchain-powered digital voting platform designed to revolutionize how democratic voting systems work. It uses real-time face verification, peer-to-peer blockchain syncing, and transparent vote logging to create a **tamper-proof and trustless digital voting system**.
+BallotBlock is a next-gen, decentralized(P2P), blockchain-powered digital voting platform designed to revolutionize how democratic voting systems work. It uses real-time face verification, peer-to-peer blockchain syncing, and transparent vote logging to create a **tamper-proof and trustless digital voting system**.
 
 ---
 
