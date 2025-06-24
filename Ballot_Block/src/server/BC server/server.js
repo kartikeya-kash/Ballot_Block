@@ -76,6 +76,10 @@ app.get('/chain', (req, res) => {
   res.json(blockchain.chain);
 });
 
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
 // 📊 Get vote results
 app.get('/results', (req, res) => {
   const voteCounts = {};
